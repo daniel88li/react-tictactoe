@@ -19,6 +19,14 @@ ul {
   margin-bottom: 10px;
 }
 
+.win-status {
+  color: lightgreen;
+}
+
+.draw-status {
+  color: lightcoral;
+}
+
 .square {
   background: #fff;
   border: 1px solid #999;

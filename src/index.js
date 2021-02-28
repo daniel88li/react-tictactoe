@@ -93,9 +93,15 @@ class Game extends React.Component {
     let status;
     let winningSquares = calculateWinner(currentSquares);
     let winner = winningSquares ? currentSquares[winningSquares[0]] : null;
+    let boardFilled = !currentSquares.includes(null);
+    let statusClass = "status";
 
     if (winner) {
       status = "Congrats! Winner is player " + winner;
+      statusClass += " win-status";
+    } else if (boardFilled) {
+      status = "Game over! Draw";
+      statusClass += " draw-status";
     } else {
       status = "Next player: " + (this.state.isXNext ? "X" : "O");
     }
@@ -120,7 +126,7 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <div className="status">{status}</div>
+          <div className={statusClass}>{status}</div>
           <ol>{moveHistory}</ol>
         </div>
       </div>
