@@ -1,6 +1,7 @@
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
   margin: 20px;
+  background-color: dimgrey;
 }
 
 ol,
@@ -31,6 +32,10 @@ ul {
   padding: 0;
   text-align: center;
   width: 34px;
+}
+
+.winning-square {
+  background-color: lightgreen;
 }
 
 .square:focus {
