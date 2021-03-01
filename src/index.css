@@ -27,6 +27,35 @@ ul {
   color: lightcoral;
 }
 
+.axis-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.x-axis {
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.y-axis {
+  width: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.axis {
+  height: 20px;
+  border: 1px #999;
+  flex-grow: 1;
+}
+
+.axis:focus {
+  outline: none;
+}
+
 .square {
   background: #fff;
   border: 1px solid #999;
@@ -61,4 +90,9 @@ ul {
 
 .game-info {
   margin-left: 20px;
+}
+
+.game-board {
+  display: flex;
+  flex-direction: column;
 }

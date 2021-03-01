@@ -53,7 +53,7 @@ class Game extends React.Component {
   constructor() {
     super();
     this.state = {
-      history: [{ squares: Array(9).fill(null) }],
+      history: [{ squares: Array(9).fill(null), lastMove: null }],
       isXNext: true,
     };
   }
@@ -72,7 +72,7 @@ class Game extends React.Component {
       let updatedHistory = [...prevState.history];
 
       updatedSquares[i] = prevState.isXNext ? "X" : "O";
-      updatedHistory.push({ squares: updatedSquares });
+      updatedHistory.push({ squares: updatedSquares, lastMove: i });
       return {
         history: updatedHistory,
         isXNext: !prevState.isXNext,
@@ -85,6 +85,13 @@ class Game extends React.Component {
       history: this.state.history.slice(0, moveNum + 1),
       isXNext: moveNum % 2 === 0,
     });
+  }
+
+  getMoveLocation(i) {
+    // location is in (row, col) format
+    let row = Math.floor(i / 3) + 1;
+    let col = (i % 3) + 1;
+    return [row, col];
   }
 
   render() {
@@ -107,8 +114,13 @@ class Game extends React.Component {
     }
 
     const moveHistory = this.state.history.map((moves, moveNum) => {
+      const moveCoord = this.getMoveLocation(moves.lastMove);
       const moveDesc =
-        "Go to " + (moveNum > 0 ? "move #" + moveNum : "the start");
+        "Go to " +
+        (moveNum > 0
+          ? `move # ${moveNum} @ ${JSON.stringify(moveCoord)}`
+          : "the start");
+
       return (
         <li key={moves.squares}>
           <button onClick={() => this.goToMove(moveNum)}>{moveDesc}</button>
@@ -119,10 +131,14 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board
-            squares={currentSquares}
-            onClick={(i) => this.handleClick(i)}
-            winningSquares={winningSquares}
+          <Axis
+            board={
+              <Board
+                squares={currentSquares}
+                onClick={(i) => this.handleClick(i)}
+                winningSquares={winningSquares}
+              />
+            }
           />
         </div>
         <div className="game-info">
@@ -132,6 +148,27 @@ class Game extends React.Component {
       </div>
     );
   }
+}
+
+function Axis(props) {
+  return (
+    <div>
+      <div className="x-axis">
+        <button className="axis"></button>
+        <button className="axis">1</button>
+        <button className="axis">2</button>
+        <button className="axis">3</button>
+      </div>
+      <div className="axis-container">
+        <div className="y-axis">
+          <button className="axis">1</button>
+          <button className="axis">2</button>
+          <button className="axis">3</button>
+        </div>
+        {props.board}
+      </div>
+    </div>
+  );
 }
 
 function calculateWinner(squares) {
